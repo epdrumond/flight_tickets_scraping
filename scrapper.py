@@ -55,6 +55,21 @@ class expedia_scrapper():
             self.passengers + \
             self.url_end
 
+    def extract_from_html(self, raw_data):
+        '''
+        Extract desired information from the provided html tag element provided
+        Receives: Beautiful Soup element with the chunk of HTML containing the
+            desired data
+        Returns: Desired data in a dictionary
+        '''
+
+        #Extract departure and arrival time
+        departure_time = raw_data.find('div', {'data-test-id': 'arrival-time'})
+        print(departure_time)
+        print(type(departure_time))
+        departure_time = str(departure_time.find('span').contents[0])
+
+
     def extract_data(self, source, destination, date):
         '''
         Scrape flight ticket data from expedia
@@ -71,12 +86,17 @@ class expedia_scrapper():
         #Get url and extract raw data
         url = self.assemble_url(source, destination, date)
         browser.get(url)
-        #browser.get_screenshot_as_file('test.png')
+        browser.get_screenshot_as_file('test.png')
 
         soup = bs(browser.page_source, 'html.parser')
         data = soup.find('div', {'class': "uitk-layout-flex uitk-layout-flex-justify-content-space-between uitk-layout-flex-gap-six uitk-layout-flex-flex-wrap-nowrap uitk-layout-grid-item"})
 
-        print(data)
+        #print(data)
+        try:
+            self.extract_from_html(data)
+        except Exception as error:
+            print('Not this again!')
+            print(error)
 
 if __name__ == '__main__':
     scrap = expedia_scrapper()

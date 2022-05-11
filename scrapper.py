@@ -20,40 +20,40 @@ class expedia_scrapper():
     def __init__(self):
         #Setup the search url in parts
         self.base_url = 'https://www.expedia.com.br/Flights-Search?'
-        self.flight_mode = 'flight-type=on&mode=search&trip=oneway'
-        self.source = '&leg1=from%3A{}%2C'
-        self.destination = 'to%3A{}%2C'
-        self.departure = 'departure%3A{}%2F{}%2F{}TANYT&options=cabinclass%3Aeconomy&'
-        self.passengers = 'passengers=children%3A0%2Cadults%3A1%2Cseniors%3A0%2Cinfantinlap%3AY'
-        self.url_end = '&fromDate={}%2F{}%2F{}&d1={}'
+        self.flight_mode_url = 'flight-type=on&mode=search&trip=oneway'
+        self.source_url = '&leg1=from%3A{}%2C'
+        self.destination_url = 'to%3A{}%2C'
+        self.departure_url = 'departure%3A{}%2F{}%2F{}TANYT&options=cabinclass%3Aeconomy&'
+        self.passengers_url = 'passengers=children%3A0%2Cadults%3A1%2Cseniors%3A0%2Cinfantinlap%3AY'
+        self.end_url = '&fromDate={}%2F{}%2F{}&d1={}'
 
     def split_date(self, date):
         return date[-2:], date[5:7], date[:4]
 
-    def assemble_url(self, source, destination, date):
+    def assemble_url(self):
         '''
         Inserts the request data and assemble the request url
         Receives: source, destination and date for flight search
         Returns: complete url for request
         '''
-        self.source = self.source.format(source)
-        self.destination = self.destination.format(destination)
+        self.source_url = self.source_url.format(self.source)
+        self.destination_url = self.destination_url.format(self.destination)
 
-        date_part = self.split_date(date)
-        self.departure = self.departure.format(
+        date_part = self.split_date(self.date)
+        self.departure_url = self.departure_url.format(
             date_part[0], date_part[1], date_part[2]
         )
-        self.url_end = self.url_end.format(
-            date_part[0], date_part[1], date_part[2], date
+        self.end_url = self.end_url.format(
+            date_part[0], date_part[1], date_part[2], self.date
         )
 
         return self.base_url + \
-            self.flight_mode + \
-            self.source + \
-            self.destination + \
-            self.departure + \
-            self.passengers + \
-            self.url_end
+            self.flight_mode_url + \
+            self.source_url + \
+            self.destination_url + \
+            self.departure_url + \
+            self.passengers_url + \
+            self.end_url
 
     def extract_from_html(self, raw_data):
         '''
@@ -65,10 +65,46 @@ class expedia_scrapper():
 
         #Extract departure and arrival time
         departure_time = raw_data.find('div', {'data-test-id': 'arrival-time'})
-        print(departure_time)
-        print(type(departure_time))
         departure_time = str(departure_time.find('span').contents[0])
 
+        #Extract origin and destination
+        source_and_destination = raw_data.find(
+            'div', {'data-test-id': 'arrival-departure'}
+        ).contents[0]
+
+        #Extract flight duration
+        duration = raw_data.find(
+            'div', {'data-test-id': 'journey-duration'}
+        ).contents[0]
+
+        #Extract ticket price
+        ticket_price = raw_data.find(
+            'span', {'class': 'uitk-lockup-price'}
+        ).contents[0]
+
+        #Extract operating company
+        company = raw_data.find(
+            'div', {'data-test-id': 'flight-operated'}
+        ) .contents[0]
+
+        self.extracted_data = {
+            'departure_time': departure_time,
+            'source_and_destination': source_and_destination,
+            'duration': duration,
+            'ticket_price': ticket_price,
+            'company': company
+        }
+
+    def process_flight_timestamps(self, timestamp):
+        pass
+
+    def process_extracted_data(self):
+        '''
+        Treats the extracted data in order to adjust it for initial storage
+        Receives: Extracted data as a dictionary
+        Returns: Processed data also as a dictionary
+        '''
+        print(self.extracted_data)
 
     def extract_data(self, source, destination, date):
         '''
@@ -77,6 +113,11 @@ class expedia_scrapper():
         Returns: flight ticket data
         '''
 
+        #Storage input as class variables
+        self.source = source
+        self.destination = destination
+        self.date = date
+
         #Setup browser for data scraping
         op = webdriver.ChromeOptions()
         op.add_argument('--headless')
@@ -84,19 +125,22 @@ class expedia_scrapper():
         browser = webdriver.Chrome(options=op)
 
         #Get url and extract raw data
-        url = self.assemble_url(source, destination, date)
+        url = self.assemble_url()
         browser.get(url)
         browser.get_screenshot_as_file('test.png')
 
         soup = bs(browser.page_source, 'html.parser')
         data = soup.find('div', {'class': "uitk-layout-flex uitk-layout-flex-justify-content-space-between uitk-layout-flex-gap-six uitk-layout-flex-flex-wrap-nowrap uitk-layout-grid-item"})
 
-        #print(data)
+        #Extract data from the selected HTML tag
         try:
             self.extract_from_html(data)
         except Exception as error:
             print('Not this again!')
             print(error)
+
+        #Process data for storage
+        self.process_extracted_data()
 
 if __name__ == '__main__':
     scrap = expedia_scrapper()

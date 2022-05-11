@@ -60,43 +60,30 @@ class expedia_scrapper():
         Extract desired information from the provided html tag element provided
         Receives: Beautiful Soup element with the chunk of HTML containing the
             desired data
-        Returns: Desired data in a dictionary
+        Returns: Desired data in a list of dictionaries
         '''
 
-        #Extract departure and arrival time
-        departure_time = raw_data.find('div', {'data-test-id': 'arrival-time'})
-        departure_time = str(departure_time.find('span').contents[0])
+        self.extracted_data = []
+        for data in raw_data:
+            #Extract departure and arrival time
+            departure_time = data.find('div', {'data-test-id': 'arrival-time'})
+            departure_time = str(departure_time.find('span').contents[0])
 
-        #Extract origin and destination
-        source_and_destination = raw_data.find(
-            'div', {'data-test-id': 'arrival-departure'}
-        ).contents[0]
+            #Extract flight duration
+            duration = data.find('div', {'data-test-id': 'journey-duration'}).contents[0]
 
-        #Extract flight duration
-        duration = raw_data.find(
-            'div', {'data-test-id': 'journey-duration'}
-        ).contents[0]
+            #Extract ticket price
+            ticket_price = data.find('span', {'class': 'uitk-lockup-price'}).contents[0]
 
-        #Extract ticket price
-        ticket_price = raw_data.find(
-            'span', {'class': 'uitk-lockup-price'}
-        ).contents[0]
+            #Extract operating company
+            company = data.find('div', {'data-test-id': 'flight-operated'}).contents[0]
 
-        #Extract operating company
-        company = raw_data.find(
-            'div', {'data-test-id': 'flight-operated'}
-        ) .contents[0]
-
-        self.extracted_data = {
-            'departure_time': departure_time,
-            'source_and_destination': source_and_destination,
-            'duration': duration,
-            'ticket_price': ticket_price,
-            'company': company
-        }
-
-    def process_flight_timestamps(self, timestamp):
-        pass
+            self.extracted_data.append({
+                'departure_time': departure_time,
+                'duration': duration,
+                'ticket_price': ticket_price,
+                'company': company
+            })
 
     def process_extracted_data(self):
         '''
@@ -105,6 +92,17 @@ class expedia_scrapper():
         Returns: Processed data also as a dictionary
         '''
         print(self.extracted_data)
+
+        #Set up processed data dictionary
+        self.processed_data = {}
+
+        #Ticket price
+        val = ''.join(ch for ch in self.extracted_data['ticket_price'] if ch.isdigit())
+        self.processed_data.update({'ticket_price': int(val)})
+
+        #Company
+
+        print(self.processed_data)
 
     def extract_data(self, source, destination, date):
         '''
@@ -130,7 +128,7 @@ class expedia_scrapper():
         browser.get_screenshot_as_file('test.png')
 
         soup = bs(browser.page_source, 'html.parser')
-        data = soup.find('div', {'class': "uitk-layout-flex uitk-layout-flex-justify-content-space-between uitk-layout-flex-gap-six uitk-layout-flex-flex-wrap-nowrap uitk-layout-grid-item"})
+        data = soup.find_all('div', {'class': "uitk-layout-flex uitk-layout-flex-justify-content-space-between uitk-layout-flex-gap-six uitk-layout-flex-flex-wrap-nowrap uitk-layout-grid-item"})
 
         #Extract data from the selected HTML tag
         try:
@@ -140,8 +138,8 @@ class expedia_scrapper():
             print(error)
 
         #Process data for storage
-        self.process_extracted_data()
+        #self.process_extracted_data()
 
 if __name__ == '__main__':
     scrap = expedia_scrapper()
-    scrap.extract_data(source='GRU', destination='CWB', date='2022-06-01')
+    scrap.extract_data(source='VCP', destination='FOR', date='2022-06-01')

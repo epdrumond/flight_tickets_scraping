@@ -1,4 +1,5 @@
 #Import libraries
+import numpy as np
 import requests
 import json
 from bs4 import BeautifulSoup as bs
@@ -91,18 +92,40 @@ class expedia_scrapper():
         Receives: Extracted data as a dictionary
         Returns: Processed data also as a dictionary
         '''
-        print(self.extracted_data)
 
         #Set up processed data dictionary
-        self.processed_data = {}
+        self.processed_data = []
 
-        #Ticket price
-        val = ''.join(ch for ch in self.extracted_data['ticket_price'] if ch.isdigit())
-        self.processed_data.update({'ticket_price': int(val)})
+        for element in self.extracted_data:
+            processed_element = {}
 
-        #Company
+            #Departure time
+            dep_time = element['departure_time'].split('-')[0].strip().split('h')
+            dep_time = np.datetime64(f'{self.date} {dep_time[0].zfill(2)}:{dep_time[1]}:00')
+            processed_element.update({'departure_time': dep_time})
 
-        print(self.processed_data)
+            #Arrival time
+            duration, stops = element['duration'].split('(')
+            hours, minutes = [
+                int(''.join([ch for ch in part if ch.isdigit()]))
+                for part
+                in duration.split()
+            ]
+            arv_time = dep_time + np.timedelta64(hours, 'h') + np.timedelta64(minutes, 'm')
+            processed_element.update({'arrival_time': arv_time})
+
+            #Stops
+            stops = stops.split()[0]
+            stops = 0 if stops == 'sem' else int(stops)
+            processed_element.update({'stops': stops})
+
+            #Ticket price
+            price = ''.join(ch for ch in element['ticket_price'] if ch.isdigit())
+            processed_element.update({'ticket_price': int(price)})
+
+            #Company
+
+            self.processed_data.append(processed_element)
 
     def extract_data(self, source, destination, date):
         '''
@@ -138,7 +161,7 @@ class expedia_scrapper():
             print(error)
 
         #Process data for storage
-        #self.process_extracted_data()
+        self.process_extracted_data()
 
 if __name__ == '__main__':
     scrap = expedia_scrapper()

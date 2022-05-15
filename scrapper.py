@@ -1,12 +1,14 @@
 #Import libraries
 import numpy as np
+import pandas as pd
+
+import os
+from os.path import join, exists
 import requests
 import json
+
 from bs4 import BeautifulSoup as bs
 from selenium import webdriver
-
-from lxml import html
-from collections import OrderedDict
 
 headers = {'User-Agent':
     'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36' \
@@ -127,9 +129,35 @@ class expedia_scrapper():
             processed_element.update({'company': element['company']})
 
             #Extraction date
-            processed_element.update({'extraction_date': np.datetime64('today')})
+            self.extraction_date = np.datetime64('today')
+            processed_element.update({'extraction_date': self.extraction_date})
+
+            #Origin and destination
+            processed_element.update({'source': self.source, 'destination': self.destination})
 
             self.processed_data.append(processed_element)
+
+    def save_processed_data(self):
+        '''
+        Save the processed data into a file for later use
+        Receives: The processed data list of dictionaries
+        Returns: Saved data in a file
+        '''
+
+        #Check whether the storage folder already exists and create it otherwise
+        base_path = 'extracted_data'
+        complete_path = join(base_path, str(self.extraction_date))
+
+        if not exists(complete_path):
+            os.makedirs(complete_path)
+
+        #Convert data to a Pandas dataframe
+        df = pd.DataFrame(self.processed_data)
+
+        #Save data to a csv file
+        file_name = f'{self.source}-{self.destination}_{self.extraction_date}.csv'
+        df.to_csv(join(complete_path, file_name), sep=';', index=False)
+
 
     def extract_data(self, source, destination, date):
         '''
@@ -166,6 +194,9 @@ class expedia_scrapper():
 
         #Process data for storage
         self.process_extracted_data()
+
+        #Save processed data into a file
+        self.save_processed_data()
 
 if __name__ == '__main__':
     scrap = expedia_scrapper()

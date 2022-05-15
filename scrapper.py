@@ -124,6 +124,10 @@ class expedia_scrapper():
             processed_element.update({'ticket_price': int(price)})
 
             #Company
+            processed_element.update({'company': element['company']})
+
+            #Extraction date
+            processed_element.update({'extraction_date': np.datetime64('today')})
 
             self.processed_data.append(processed_element)
 

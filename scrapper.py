@@ -129,7 +129,6 @@ class expedia_scrapper():
             processed_element.update({'company': element['company']})
 
             #Extraction date
-            self.extraction_date = np.datetime64('today')
             processed_element.update({'extraction_date': self.extraction_date})
 
             #Origin and destination
@@ -170,6 +169,7 @@ class expedia_scrapper():
         self.source = source
         self.destination = destination
         self.date = date
+        self.extraction_date = np.datetime64('today')
 
         #Setup browser for data scraping
         op = webdriver.ChromeOptions()
@@ -200,4 +200,4 @@ class expedia_scrapper():
 
 if __name__ == '__main__':
     scrap = expedia_scrapper()
-    scrap.extract_data(source='VCP', destination='FOR', date='2022-06-01')
+    scrap.extract_data(source='GRU', destination='FOR', date='2022-06-01')

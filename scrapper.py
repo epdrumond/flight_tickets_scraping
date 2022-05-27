@@ -179,7 +179,9 @@ class expedia_scrapper():
 
         #Get url and extract raw data
         url = self.assemble_url()
+
         browser.get(url)
+        browser.execute_script('window.scrollTo(0,document.body.scrollHeight)')
         browser.get_screenshot_as_file('test.png')
 
         soup = bs(browser.page_source, 'html.parser')

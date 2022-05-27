@@ -36,4 +36,6 @@ for origin, destination in tqdm(airports.values):
         date=reference_date
     )
 
-    time.sleep(0.5)
+    #Generate random waiting time between requests
+    wait_time = 3 * np.random.rand()
+    time.sleep(wait_time)

@@ -17,6 +17,8 @@ headers = {'User-Agent':
 USER_AGENT = \
     'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko)' \
     ' Chrome/60.0.3112.50 Safari/537.36'
+REFERRER = 'https://www.youtube.com'
+
 
 class expedia_scrapper():
 
@@ -175,6 +177,7 @@ class expedia_scrapper():
         op = webdriver.ChromeOptions()
         op.add_argument('--headless')
         op.add_argument(f'user-agent={USER_AGENT}')
+        op.add_argument(f'referrer={REFERRER}')
         browser = webdriver.Chrome(options=op)
 
         #Get url and extract raw data
@@ -182,7 +185,7 @@ class expedia_scrapper():
 
         browser.get(url)
         browser.execute_script('window.scrollTo(0,document.body.scrollHeight)')
-        browser.get_screenshot_as_file('test.png')
+        #browser.get_screenshot_as_file('test.png')
 
         soup = bs(browser.page_source, 'html.parser')
         data = soup.find_all('div', {'class': "uitk-layout-flex uitk-layout-flex-justify-content-space-between uitk-layout-flex-gap-six uitk-layout-flex-flex-wrap-nowrap uitk-layout-grid-item"})

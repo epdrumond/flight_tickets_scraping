@@ -110,11 +110,19 @@ class expedia_scrapper():
 
             #Arrival time
             duration, stops = element['duration'].split('(')
-            hours, minutes = [
+            hours_minutes = [
                 int(''.join([ch for ch in part if ch.isdigit()]))
                 for part
                 in duration.split()
             ]
+
+            if len(hours) == 1:
+                hours = hours_minutes[0]
+                minutes = 0
+            else:
+                hours = hours_minutes[0]
+                minutes = hours_minutes[1]
+
             arv_time = dep_time + np.timedelta64(hours, 'h') + np.timedelta64(minutes, 'm')
             processed_element.update({'arrival_time': arv_time})
 

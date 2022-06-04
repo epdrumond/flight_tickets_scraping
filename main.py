@@ -26,10 +26,12 @@ from
 '''
 airports = pd.read_sql(airport_query, conn)
 
-for origin, destination in tqdm(airports.values):
-    reference_date = str(np.datetime64('today') + 30)
+scrap = expedia_scrapper()
+scrap.create_browser()
+reference_date = str(np.datetime64('today') + 30)
 
-    scrap = expedia_scrapper()
+for origin, destination in tqdm(airports.values):
+
     scrap.extract_data(
         source=origin,
         destination=destination,
@@ -37,5 +39,5 @@ for origin, destination in tqdm(airports.values):
     )
 
     #Generate random waiting time between requests
-    wait_time = 3 * np.random.rand()
+    wait_time = np.random.rand()
     time.sleep(wait_time)

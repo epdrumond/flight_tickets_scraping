@@ -167,6 +167,15 @@ class expedia_scrapper():
         file_name = f'{self.source}-{self.destination}_{self.extraction_date}.csv'
         df.to_csv(join(complete_path, file_name), sep=';', index=False)
 
+    def create_browser(self):
+        '''
+        Creates the browser instance to be used in the scrapping process
+        '''
+        op = webdriver.ChromeOptions()
+        op.add_argument('--headless')
+        op.add_argument(f'user-agent={USER_AGENT}')
+        op.add_argument(f'referrer={REFERRER}')
+        self.browser = webdriver.Chrome(options=op)
 
     def extract_data(self, source, destination, date):
         '''
@@ -181,21 +190,14 @@ class expedia_scrapper():
         self.date = date
         self.extraction_date = np.datetime64('today')
 
-        #Setup browser for data scraping
-        op = webdriver.ChromeOptions()
-        op.add_argument('--headless')
-        op.add_argument(f'user-agent={USER_AGENT}')
-        op.add_argument(f'referrer={REFERRER}')
-        browser = webdriver.Chrome(options=op)
-
         #Get url and extract raw data
         url = self.assemble_url()
 
-        browser.get(url)
-        browser.execute_script('window.scrollTo(0,document.body.scrollHeight)')
-        #browser.get_screenshot_as_file('test.png')
+        self.browser.get(url)
+        self.browser.execute_script('window.scrollTo(0,document.body.scrollHeight)')
+        #self.browser.get_screenshot_as_file('test.png')
 
-        soup = bs(browser.page_source, 'html.parser')
+        soup = bs(self.browser.page_source, 'html.parser')
         data = soup.find_all('div', {'class': "uitk-layout-flex uitk-layout-flex-justify-content-space-between uitk-layout-flex-gap-six uitk-layout-flex-flex-wrap-nowrap uitk-layout-grid-item"})
 
         #Extract data from the selected HTML tag

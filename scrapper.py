@@ -116,7 +116,7 @@ class expedia_scrapper():
                 in duration.split()
             ]
 
-            if len(hours) == 1:
+            if len(hours_minutes) == 1:
                 hours = hours_minutes[0]
                 minutes = 0
             else:
@@ -213,4 +213,4 @@ class expedia_scrapper():
 
 if __name__ == '__main__':
     scrap = expedia_scrapper()
-    scrap.extract_data(source='GRU', destination='FOR', date='2022-06-01')
+    scrap.extract_data(source='BEL', destination='MCP', date='2022-07-03')

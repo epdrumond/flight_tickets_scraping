@@ -1,0 +1,53 @@
+code;name;city;state;latitude;longitude;timezone
+BSB;Aeroporto Internacional de Brasília / Presidente Jucelino Kubitschek;Brasília;DF;-15.8697;-47.9172;-3
+CGH;Aeroporto Internacional de São Paulo / Congonhas;São Paulo;SP;-23.6273;-46.6566;-3
+GIG;Aeroporto Internacional do Rio de Janeiro / Galeão-Antônio Carlos Jobim;Rio de Janeiro;RJ;-22.8171;-43.2278;-3
+SSA;Aeroporto Internacional de Salvador / Deputado Luis Eduardo Magalhães;Salvador;BA;-12.9110;-38.3314;-3
+FLN;Aeroporto Internacional de Florianópolis / Hercílio Luz;Florianópolis;SC;-27.6701;-48.5460;-3
+POA;Aeroporto Internacional de Porto Alegre / Salgado Filho;Porto Alegre;RS;-29.9935;-51.1754;-3
+VCP;Aeroporto Internacional de Viracopos / Campinas;Campinas;SP;-23.0082;-47.1376;-3
+REC;Aeroporto Internacional do Recife/ Guararapes – Gilberto Freyre;Recife;PE;-8.1259;-34.9240;-3
+CWB;Aeroporto Internacional de Curitiba / Afonso Pena;Curitiba;PR;-25.5327;-49.1725;-3
+BEL;Aeroporto Internacional de Belém / Val de Cans;Belém;PA;-1.3821;-48.4775;-3
+VIX;Aeroporto de Vitória – Eurico de Aguiar Salles;Vitória;ES;-20.2617;-40.2833;-3
+SDU;Aerorporto Santos Dumont;Rio de Janeiro;RJ;-22.9111;-43.1649;-3
+CGB;Aeroporto Internacional de Cuiabá / Marechal Rondon;Cuiabá;MT;-15.6531;-56.1173;-4
+CGR;Aeroporto Internacional de Campo Grande;Campo Grande;MS;-20.4687;-54.6741;-4
+FOR;Aeroporto Internacional de Fortaleza / Pinto Martins;Fortaleza;CE;-3.772;-38.5331;-3
+MCP;Aeroporto Internacional de Macapá;Macapá;AP;-0.0501;-51.0670;-3
+MGF;Aeroporto Regional de Maringá / Silvio Name Junior;Maringá;PR;-23.4795;-52.0122;-3
+GYN;Aeroporto de Goiânia / Santa Genoveva;Goiânia;GO;-16.6323;-49.2163;-3
+NVT;Aeroporto Internacional de Navegantes / Ministro Victor Konder;Navegantes;SC;-26.8792;-48.6500;-3
+MAO;Aeroporto Internacional de Manaus / Eduardo Gomes;Manaus;AM;-3.0358;-60.0463;-4
+NAT;Aeroporto Internacional de Natal / Augusto Severo;São Gonçalo do Amarante;RN;-5.7689;-35.3661;-3
+BPS;Aeroporto Internacional de Porto Seguro;Porto Seguro;BA;-16.4409;-39.0799;-3
+MCZ;Aeroporto de Maceió / Zumbi dos Palmares;Maceió;AL;-9.5119;-35.7932;-3
+PMW;Aeroporto de Palmas/Brigadeiro Lysias Rodrigues;Palmas;TO;-10.2957;-48.3581;-3
+SLZ;Aeroporto Internacional de São Luís / Marechal Cunha Machado;São Luis;MA;-2.5836;-44.2362;-3
+GRU;Aeroporto Internacional de São Paulo/Guarulhos-Governador André Franco Motoro;Guarulhos;SP;-23.4306;-46.4730;-3
+LDB;Aeroporto de Londrina / Governador José Richa;Londrina;PR;-23.3322;-51.1315;-3
+PVH;Aeroporto Internacional de Porto Velho / Governador Jorge Teixeira de Oliveira;Porto Velho;RO;-8.7142;-63.8984;-4
+RBR;Aeroporto Internacional de Rio Branco / Plácido de Castro;Rio Branco;AC;-9.8664;-67.8974;-5
+JOI;Aeroporto de Joinville / Lauro Carneiro de Loyola;Joinville;SC;-26.2254;-48.8027;-3
+UDI;Aeroporto de Uberlândia / Ten. Cel. Av. César Bombonato;Uberlândia;MG;-18.8877;-48.2311;-3
+CXJ;Aeroporto Regional de Caxias do Sul / Hugo Cantergiani;Caxias do Sul;RS;-29.1949;-51.1869;-3
+IGU;Aeroporto Internacional de Foz do Iguaçu;Foz do Iguaçu;PR;-25.5977;-54.4885;-3
+THE;Aeroporto de Teresina – Senador Petrônio Portella;Teresina;PI;-5.0603;-42.8236;-3
+AJU;Aeroporto Internacional de Aracaju / Santa Maria;Aracaju;SE;-10.9870;-37.0726;-3
+JPA;Aeroporto Internacional de João Pessoa / Presidente Castro Pinto;Bayeux;PB;-7.1460;-34.9488;-3
+PNZ;Aeroporto de Petrolina / Senador Nilo Coelho;Petrolina;PE;-9.3666;-40.56757;-3
+CNF;Aeroporto Internacional de Minas Gerais / Confins – Tancredo Neves;Confins;MG;-19.6341;-43.9654;-3
+BVB;Aeroporto Internacional de Boa Vista / Atlas Brasil Cantanhede;Boa Vista;RR;-2.8412;-60.6923;-4
+CPV;Aeroporto de Campina Grande / Presidente João Suassuna;Campina Grande;PB;-7.2689;-35.8940;-3
+STM;Aeroporto de Santarém / Maestro Wilson Fonseca;Santarém;PA;-2.4248;-54.7862;-3
+IOS;Aeroporto de Ilhéus/Bahia-Jorge Amado;Ilhéus;BA;-14.8154;-39.0326;-3
+JDO;Aeroporto de Juazeiro do Norte – Orlando Bezerra;Juazeiro do Norte;CE;-7.2150;-39.2722;-3
+IMP;Aeroporto de Imperatriz – Prefeito Renato Moreira;Imperatriz;MA;-5.5317;-47.4561;-3
+XAP;Aeroporto de Chapecó – Serafin Enoss Bertaso;Chapecó;SC;-27.1320;-52.6605;-3
+MAB;Aeroporto de Marabá;Marabá;PA;-5.3718;-49.1369;-3
+CZS;Aeroporto Internacional de Cruzeiro do Sul;Cruzeiro do Sul;AC;-7.5983;-72.7734;-5
+PPB;Aeroporto Estadual de Presidente Prudente;Presidente Prudente;SP;-22.1791;-51.4173;-3
+CFB;Aeroporto Internacional de Cabo Frio;Cabo Frio;RJ;-22.9259;-42.0793;-3
+FEN;Aeroporto de Fernando de Noronha;Fernando de Noronha;PE;-3.8546;-32.4244;-2
+JTC;Aeroporto Estadual de Bauru/Arealva;Bauru;SP;-22.1660;-49.0722;-3
+MOC;Aeroporto de Montes Claros/Mário Ribeiro;Montes Claros;MG;-16.7050;43.8200;-3

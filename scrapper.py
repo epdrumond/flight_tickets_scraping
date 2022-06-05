@@ -9,6 +9,10 @@ import json
 
 from bs4 import BeautifulSoup as bs
 from selenium import webdriver
+from selenium.common.exceptions import TimeoutException
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions
+from selenium.webdriver.common.by import By
 
 headers = {'User-Agent':
     'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36' \
@@ -164,8 +168,9 @@ class expedia_scrapper():
         df = pd.DataFrame(self.processed_data)
 
         #Save data to a csv file
-        file_name = f'{self.source}-{self.destination}_{self.extraction_date}.csv'
-        df.to_csv(join(complete_path, file_name), sep=';', index=False)
+        if len(df) > 0:
+            file_name = f'{self.source}-{self.destination}_{self.extraction_date}.csv'
+            df.to_csv(join(complete_path, file_name), sep=';', index=False)
 
     def create_browser(self):
         '''
@@ -195,6 +200,17 @@ class expedia_scrapper():
 
         self.browser.get(url)
         self.browser.execute_script('window.scrollTo(0,document.body.scrollHeight)')
+
+        timeout = 10
+        try:
+            element_present = expected_conditions.presence_of_element_located(
+                (By.ID, 'main')
+            )
+            WebDriverWait(self.browser, timeout).until(element_present)
+        except TimeoutException:
+            print('Timed out!')
+
+
         #self.browser.get_screenshot_as_file('test.png')
 
         soup = bs(self.browser.page_source, 'html.parser')
@@ -215,4 +231,5 @@ class expedia_scrapper():
 
 if __name__ == '__main__':
     scrap = expedia_scrapper()
-    scrap.extract_data(source='BEL', destination='MCP', date='2022-07-03')
+    scrap.create_browser()
+    scrap.extract_data(source='AJU', destination='SLZ', date='2022-07-05')
